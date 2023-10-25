@@ -4,6 +4,7 @@ import PokeBannerImg from "./PokeBannerImg";
 import { useEffect, useState } from "react";
 
 const Banner = ({ typeColor }) => {
+
   let pokedetailsDefaults = {
     pokeName: '',
     pokeColor: '',
