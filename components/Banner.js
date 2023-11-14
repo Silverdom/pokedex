@@ -1,11 +1,9 @@
-'use client';
+import { fetchSinglePokemonById, fetchSinglePokemonSpeciesById } from "@/utils/fetchPokemonData";
 import PokeBannerDet from "./PokeBannerDet";
 import PokeBannerImg from "./PokeBannerImg";
-import { useEffect, useState } from "react";
 
-const Banner = ({ typeColor }) => {
-
-  let pokedetailsDefaults = {
+const Banner = async ({ typeColor }) => {
+  let pokedetails = {
     pokeName: '',
     pokeColor: '',
     pokeDesc: '',
@@ -13,56 +11,33 @@ const Banner = ({ typeColor }) => {
     baseStats: []
   };
 
-  let [pokedetails, setPokeDetails] = useState(pokedetailsDefaults);
-  useEffect(() => {
-    console.log("use effect");
-    let randomPokemon = Math.floor(Math.random() * 1000)
-    fetch(`https://pokeapi.co/api/v2/pokemon/${randomPokemon}`, {
-      next: {
-        revalidate: 60
-      }
-    }).then((data) => data.json()).then((pokeOfDay) => {
-      let pokeName = pokeOfDay.name;
-      const pokeColor = typeColor[pokeOfDay.types[0].type.name] ?? typeColor["default"];
-      let pokeImg = pokeOfDay.sprites.other["official-artwork"].front_default;
-      const baseStats = [];
-      const statObj = pokeOfDay.stats;
-      for (const key in statObj) {
-        const statData = statObj[key];
-        const statKey = statData.stat.name;
-        const statValue = statData.base_stat;
-        baseStats.push({
-          name: statKey,
-          value: statValue
-        });
-      }
-      setPokeDetails(prevState => ({
-        ...prevState,
-        pokeName,
-        pokeColor,
-        pokeImg,
-        baseStats
-      }));
+  let randomPokemon = Math.floor(Math.random() * 1000);
+  let pokeOfDay = await fetchSinglePokemonById(randomPokemon);
+  let pokespecies = await fetchSinglePokemonSpeciesById(randomPokemon);
+  const baseStats = [];
+  const statObj = pokeOfDay.stats;
 
+  for (const key in statObj) {
+    const statData = statObj[key];
+    const statKey = statData.stat.name;
+    const statValue = statData.base_stat;
+    baseStats.push({
+      name: statKey,
+      value: statValue
     });
-    fetch(`https://pokeapi.co/api/v2/pokemon-species/${randomPokemon}`, {
-      next: {
-        revalidate: 60
-      }
-    }).then((data) => data.json()).then((data) => {
-      const pokeDescAll = data.flavor_text_entries.filter((item) => {
-        return item.language.name === "en";
-      });
-      let pokeDescTotal = pokeDescAll.length;
-      let pokeDesc = pokeDescAll[Math.floor(Math.random() * pokeDescTotal)];
-      console.log(pokeDesc);
-      setPokeDetails(prevState => ({
-        ...prevState,
-        pokeDesc,
-      }));
-    });
+  }
 
-  }, []);
+  const pokeDescAll = pokespecies.flavor_text_entries.filter((item) => {
+    return item.language.name === "en";
+  });
+  let pokeDescTotal = pokeDescAll.length;
+  let pokeDesc = pokeDescAll[Math.floor(Math.random() * pokeDescTotal)];
+
+  pokedetails['pokeName'] = pokeOfDay.name;
+  pokedetails['pokeColor'] = typeColor[pokeOfDay.types[0].type.name] ?? typeColor["default"];
+  pokedetails['pokeImg'] = pokeOfDay.sprites.other["official-artwork"].front_default;
+  pokedetails['baseStats'] = baseStats;
+  pokedetails['pokeDesc'] = pokeDesc;
 
   return (
     <div className="container-fluid" style={
