@@ -15,7 +15,7 @@ function Statbar({ value, max, pokeColor, statName }) {
       <div className="progress" style={ {
         width: "80%"
       } }>
-        <div className="progress-bar" role="progressbar" style={ { width: `${percent}%`, backgroundColor: pokeColor } } aria-valuenow={ percent } aria-valuemin="0" aria-valuemax={ max }>{ value }</div>
+        <div className="progress-bar" role="progressbar" style={ { width: `${percent}%`, backgroundColor: pokeColor } } aria-labelledby={ statName } aria-valuenow={ percent } aria-valuemin="0" aria-valuemax={ max }>{ value }</div>
       </div>
     </div>
   )
