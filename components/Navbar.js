@@ -1,6 +1,11 @@
+import Link from "next/link";
+
 const Navbar = () => {
   return (
-    <p>Navbar</p>
+    <div>
+      <Link href={ "/" }>Home</Link>
+      <Link href={ "/search" }>search</Link>
+    </div>
   );
 }
 
