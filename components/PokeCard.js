@@ -36,7 +36,7 @@ function PokeCard({ pokeUrl, typeColor, pokeName }) {
 
   useEffect(() => {
     fetchPokemonDetails()
-  }, [pokeUrl]);
+  }, []);
 
   return (
     <>

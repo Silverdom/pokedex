@@ -40,7 +40,10 @@ export default function PokeSearchComp({ allpoke }) {
             return null;
           } else {
             return (
-              <PokeCard key={index} pokeUrl={data.url} pokeName={data.name} typeColor={typeColor} />
+              // The Key attribute is special, if this value is unique the component is rerendered.
+              // if we put the same value but change the props value, it will not rerender the component
+              // rather it will use the same component and change the dom elements where change occurs.
+              <PokeCard key={data.name} pokeUrl={data.url} pokeName={data.name} typeColor={typeColor} />
             )
           }
         })
