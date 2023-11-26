@@ -45,11 +45,8 @@ function PokeCard({ pokeUrl, typeColor, pokeName }) {
         <Link href={ `pokemon/${pokedetails.pokeId}` }>
           <div className='pokecard' style={ {
             position: "relative",
-            width: "10rem",
-            borderColor: "#46423f",
-            borderLeft: "1px",
-            borderTopLeftRadius: "8px",
-            borderBottomLeftRadius: "8px"
+            width: "calc(180px + 2rem)",
+            marginBottom: "1rem"
           } }>
             <div className='pokecard-image' style={ {
               backgroundColor: `${pokedetails.pokeColor}`,
@@ -60,7 +57,8 @@ function PokeCard({ pokeUrl, typeColor, pokeName }) {
             <div className='pokecard-title' style={ {
               position: "absolute",
               top: "0px",
-              left: "10rem",
+              right: "0rem",
+              width: "2rem",
               writingMode: "vertical-lr",
               textTransform: "uppercase",
               backgroundColor: "#46423f",

@@ -4,21 +4,23 @@ import GlobalConfig from "../app/app.config";
 import PokeCard from "./PokeCard";
 import { throttle } from "lodash";
 import TextSearchComponent from "./TextSearchComponent";
+import { useRouter } from "next/router";
 
 export const FilterContext = React.createContext();
 
 export default function PokeSearchComp({ allpoke }) {
-  let allResult = allpoke.results;
-  const defaultFilters = {
-    "perPage": 10
-  };
-  let [results, setResult] = useState(allResult);
 
   const typeColor = GlobalConfig.color;
-  
+  let allResult = allpoke.results;
+  const perPage = 18;
+  const defaultFilters = {
+    perPage
+  };
+
+  let [results, setResult] = useState(allResult);
+
   const searchPokemon = throttle((e) => {
     let val = e.target.value;
-    // console.log(val);
     let modifiedResult = allResult.filter((data) => {
       return data.name.startsWith(val)
     });
@@ -26,17 +28,20 @@ export default function PokeSearchComp({ allpoke }) {
     setResult(modifiedResult);
   }, 1000);
 
-  const pagePokemon = (resultPokemon) => {
-    setResult(resultPokemon);
-  }
-
   return (
     <FilterContext.Provider value={{results, searchPokemon}}>
       <TextSearchComponent />
-      <div style={{display: "grid"}}>
+      <div style={
+        {
+          display: "flex",
+          flexWrap: "wrap",
+          margin: "2rem",
+          justifyContent: "space-evenly"
+        }
+      }>
       {
         results.map((data, index) => {
-          if (index > 11) {
+          if (index >= perPage) {
             return null;
           } else {
             return (

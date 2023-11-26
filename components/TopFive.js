@@ -9,7 +9,8 @@ async function TopFive({typeColor}) {
     <div className='pokelist' style={{
       display: "flex",
       justifyContent: "space-evenly",
-      marginTop: "3rem"
+      margin: "3rem",
+      flexWrap: "wrap"
     }}>
       {
         topPokes.map((poke) => {
