@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <>
       <Banner typeColor={GlobalConfig.color} />
-      <TopFive typeColor={GlobalConfig.color} />
+      {/* <TopFive typeColor={GlobalConfig.color} /> */}
     </>
   )
 }
